@@ -12,7 +12,7 @@ let serviceAccount = {
     "type": "service_account",
     "project_id": "portfolio-7469a",
     "private_key_id": "790f4b86b558aabbcb46dc7772209a27530a52fd",
-    "private_key": JSON.parse(process.env.FIREBASE_PRIVATE_KEY).private_key,
+    "private_key": process.env.NODE_ENV === "production" ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY).private_key : process.env.FIREBASE_PRIVATE_KEY,
     "client_email": "firebase-adminsdk-r3cmv@portfolio-7469a.iam.gserviceaccount.com",
     "client_id": "115277687454215232015",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",

@@ -1,6 +1,6 @@
 {
     "rewrites":  [
-        {"source": "/api/(.*)", "destination": "https://nathanaelmemis-api.vercel.app/" },
+        {"source": "/api/:route*", "destination": "https://nathanaelmemis-api.vercel.app/:route*" },
         {"source": "/(.*)", "destination": "/"}
     ]
 }

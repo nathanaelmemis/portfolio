@@ -147,7 +147,7 @@ function Home() {
             backgroundImage: 'linear-gradient(to left, rgba(255, 255, 255,0), rgba(255, 255, 255,1))',
             position: 'absolute',
           }} />
-          <img src='../src/assets/home/nathan.png' width={'350px'} />
+          <img src='../src/public/home/nathan.png' width={'350px'} />
         </Box>
         <Box sx={{
             width: '110%',

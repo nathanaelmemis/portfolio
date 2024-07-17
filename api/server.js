@@ -36,14 +36,6 @@ app.get('/test', (req, res) => {
     res.send('Hello World!')
 })
 
-/**
- * @todo add room expiration checking
- * 
- * @param {String} darkRoomCode
- * @returns {object} includes auth token for Firebase access
- * @throws {invalidData} if creds are invalid
- * @throws {internalServerErrorOccured} if unknown error occured
- */
 app.post('/login', async (req, res) => {
     const db = admin.firestore();
     const email = req.body.email;

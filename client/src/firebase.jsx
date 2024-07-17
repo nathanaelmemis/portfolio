@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: process.env.NODE_ENV === "production" ? JSON.parse(process.env.FIREBASE_API_KEY).api_key : import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: "AIzaSyC2nx7W_T_-0aunXJn7NbonjfcA0R6iVK8",
   authDomain: "portfolio-7469a.firebaseapp.com",
   projectId: "portfolio-7469a",
   storageBucket: "portfolio-7469a.appspot.com",

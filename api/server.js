@@ -22,11 +22,11 @@ let serviceAccount = {
     "universe_domain": "googleapis.com"
 }
 
-console.log(serviceAccount.private_key)
-
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
+
+const db = admin.firestore();
 
 const app = express()
 
@@ -39,7 +39,6 @@ app.get('/test', (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-    const db = admin.firestore();
     const email = req.body.email;
     const hash = req.body.hash
 
@@ -99,7 +98,6 @@ app.post('/login', async (req, res) => {
 
 // ADD TOKEN VERIFICATION
 app.post('/save', async (req, res) => {
-    const db = admin.firestore();
     const data = req.body
 
     // data validation
@@ -130,8 +128,6 @@ app.post('/save', async (req, res) => {
 
 // ADD TOKEN VERIFICATION
 app.post('/new_project_id', async (req, res) => {
-    const db = admin.firestore();
-
     utils.apiLog(req, 'Creating new project...')
 
     try {
@@ -146,7 +142,6 @@ app.post('/new_project_id', async (req, res) => {
 })
 
 app.post('/delete', (req, res) => {
-    const db = admin.firestore();
     const data = req.body
 
     utils.apiLog(req, `Deleting project: ${data.projectId}...`)
@@ -165,3 +160,5 @@ app.post('/delete', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is listening on port 3000');
 });
+
+module.exports = app;

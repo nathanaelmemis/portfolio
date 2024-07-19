@@ -22,6 +22,8 @@ let serviceAccount = {
     "universe_domain": "googleapis.com"
 }
 
+console.log(serviceAccount.private_key)
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });

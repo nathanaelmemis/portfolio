@@ -1,20 +1,9 @@
-import { Tabs, Tab, Box, Container, Typography, Fade } from '@mui/material';
-import { amber } from '@mui/material/colors'
+import { Box, Container, Typography } from '@mui/material';
 import './home.scss'
 
 import Technologies from './Technologies';
-import { useEffect, useState } from 'react';
-
-import { applyFadeAnimationToChildren } from '../utils/animation'
 
 function Home() {
-  useEffect(() => {
-    applyFadeAnimationToChildren()
-
-    const elementToFade = document.getElementById('applyFadeAnimation')
-    elementToFade.style.opacity = 1
-  }, [])
-
   function handleTechnologiesMouseOver() {
     const technologiesAElement = document.getElementById('technologiesA');
     const technologiesBElement = document.getElementById('technologiesB');
@@ -34,7 +23,7 @@ function Home() {
       height: 'calc(100vh - 112px)',
       display: 'flex'
     }}>
-      <Box id={'applyFadeAnimationToChildren'} sx={{
+      <Box sx={{
         pt: '10em',
         width: '65%'
       }}>
@@ -131,7 +120,6 @@ function Home() {
         </Box>
       </Box>
       <Box 
-        id={'applyFadeAnimation'}
         sx={{
           width: '35%',
       }}>

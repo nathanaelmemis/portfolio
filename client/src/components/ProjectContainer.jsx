@@ -28,10 +28,10 @@ function ProjectContainer(props) {
         // setTimeout(() => {
           // projectPictureContainerElement.style.marginTop = '0';
           // projectPictureContainerElement.style.opacity = 1;
-          lastProjectPictureElement.style.display = 'none'
-          projectPictureElement.style.display = 'block'
-  
-          lastProjectPictureElement = projectPictureElement
+        lastProjectPictureElement.style.display = 'none'
+        projectPictureElement.style.display = 'block'
+
+        lastProjectPictureElement = projectPictureElement
         // }, 200)
       }, 7000)
     }
@@ -49,7 +49,7 @@ function ProjectContainer(props) {
     width: 'calc(50% - 2em)',
     position: 'relative',
     transition: 'all .5s ease',
-    opacity: 0,
+    opacity: 1,
     cursor: isHovered ? 'default' : 'pointer'
   }
 
@@ -119,8 +119,6 @@ function ProjectContainer(props) {
 
   return (
     <Box
-      // onMouseEnter={() => setIsHovered(true)}
-      // onMouseLeave={() => setIsHovered(false)}
       onClick={!isHovered ? () => setIsHovered(true) : null}
       height={'200px'}
       sx={boxStyles}>

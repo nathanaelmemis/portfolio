@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Box } from '@mui/material';
 
@@ -40,7 +40,8 @@ function a11yProps(index) {
 }
 
 function Client() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [projectsData, setProjectsData] = useState(null)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,7 +84,9 @@ function Client() {
         <Home />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Projects />
+        <Projects 
+          projectsData={projectsData}
+          setProjectsData={setProjectsData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <ContactMe />

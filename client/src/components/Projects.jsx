@@ -1,34 +1,25 @@
 import { database as db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore"; 
 
-import { Box, Container, Modal, Typography } from "@mui/material"
+import { Container } from "@mui/material"
 
 import ProjectContainer from "./ProjectContainer"
 import { useEffect, useState } from "react"
 
-import { applyFadeAnimationToChildrenOfParents } from '../utils/animation'
-
-function Projects() {
-  const [projectsData, setProjectsData] = useState(null)
+function Projects(props) {
   const [renderedProjects, setRenderedProjects] = useState([])
   const [loadingFirstImage, setLoadingFirstIamge] = useState(-1)
 
   const handleOnLoad = (value) => {
-    console.log(value)
-
-    if (value == 0) {
-      applyFadeAnimationToChildrenOfParents()
-    } else {
-      setLoadingFirstIamge(value)
-    }
+    setLoadingFirstIamge(value)
   }
 
   useEffect(() => {
     let counter = 0
     let renderedProjectsTemp = []
 
-    if (projectsData) {
-      projectsData.forEach((doc) => {
+    if (props.projectsData) {
+      props.projectsData.forEach((doc) => {
         renderedProjectsTemp.push(
           <ProjectContainer 
             key={doc.id} 
@@ -44,20 +35,21 @@ function Projects() {
   
       setRenderedProjects(renderedProjectsTemp)
     }
-  }, [projectsData, loadingFirstImage])
+  }, [props.projectsData, loadingFirstImage])
 
   useEffect(() => {
     async function getProjectsData() {
       const querySnapshot = await getDocs(collection(db, "projects"))
       setLoadingFirstIamge(querySnapshot.size)
-      setProjectsData(querySnapshot)
+      props.setProjectsData(querySnapshot)
     }
-    getProjectsData()
+    if (!props.projectsData) {
+      getProjectsData()
+    }
   }, [])
 
   return (
     <Container
-      id={'applyFadeAnimationToChildren'}
       maxWidth='xl'
       sx={{
         mt: '2em',

@@ -1,15 +1,7 @@
-import { useEffect, useState } from 'react';
-
-import { Container, Box, TextField, Typography, Button, Link } from "@mui/material"
+import { Container, Box, Typography, Link } from "@mui/material"
 import { Facebook, Instagram, GitHub, LinkedIn, Email, Phone } from '@mui/icons-material';
 
-import { applyFadeAnimationToChildrenOfParents } from '../utils/animation'
-
 function ContactMe() {
-  useEffect(() => {
-    applyFadeAnimationToChildrenOfParents()
-  }, [])
-
   return (
     <Container
       sx={{
@@ -18,7 +10,6 @@ function ContactMe() {
         height: 'calc(100vh - 112px)',
       }}>
       <Box
-        id={'applyFadeAnimationToChildren'}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -70,7 +61,6 @@ function ContactMe() {
         </Link>
       </Box>
       <Box
-        id={'applyFadeAnimationToChildren'}
         sx={{
           display: 'flex',
           flexDirection: 'column',

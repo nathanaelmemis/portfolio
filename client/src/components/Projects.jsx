@@ -1,5 +1,5 @@
 import { database as db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore"; 
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; 
 
 import { Container } from "@mui/material"
 
@@ -39,7 +39,7 @@ function Projects(props) {
 
   useEffect(() => {
     async function getProjectsData() {
-      const querySnapshot = await getDocs(collection(db, "projects"))
+      const querySnapshot = await getDocs(query(collection(db, "projects"), orderBy('projectNumber')))
       setLoadingFirstIamge(querySnapshot.size)
       props.setProjectsData(querySnapshot)
     }

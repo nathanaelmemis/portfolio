@@ -1,5 +1,5 @@
 import { signInWithCustomToken } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
 
 import { auth, database as db, storage } from "../firebase";
@@ -20,6 +20,7 @@ function DeveloperDashboard() {
   const [projectEditingId, setProjectEditingId] = useState('')
   const [isDataChanged, setIsDataChanged] = useState(false)
   const [isDataValid, setIsDataValid] = useState(false)
+  const [projectNumber, setProjectNumber] = useState('')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [technologies, setTechnologies] = useState('')
@@ -45,6 +46,7 @@ function DeveloperDashboard() {
     setProjectEditingId(e.target.value)
 
     if (!e.target.value) {
+      setProjectNumber('')
       setName('')
       setDetails('')
       setTechnologies('')
@@ -56,6 +58,7 @@ function DeveloperDashboard() {
 
     const projectEditing = projectsData.docs.find(doc => doc.id === e.target.value).data()
 
+    setProjectNumber(projectEditing.projectNumber)
     setName(projectEditing.name)
     setDetails(projectEditing.details)
     setTechnologies(projectEditing.technologies)
@@ -175,6 +178,7 @@ function DeveloperDashboard() {
     const projectDataToSend = {
       idToken: idToken,
       projectId: projectEditingId,
+      projectNumber: projectNumber,
       name: name,
       description: description,
       technologies: technologies,
@@ -191,7 +195,7 @@ function DeveloperDashboard() {
     try {
       await axios.post('/api/save', projectDataToSend)
 
-      setProjectsData(await getDocs(collection(db, "projects")))
+      setProjectsData(await getDocs(query(collection(db, "projects"), orderBy('projectNumber'))))
     } catch (err) {
       console.log(err)
     }
@@ -215,6 +219,7 @@ function DeveloperDashboard() {
       const projectDataToSend = {
         idToken: idToken,
         projectId: projectId,
+        projectNumber: projectNumber,
         name: name,
         description: description,
         technologies: technologies,
@@ -230,7 +235,7 @@ function DeveloperDashboard() {
 
       await axios.post('/api/save', projectDataToSend)
 
-      setProjectsData(await getDocs(collection(db, "projects")))
+      setProjectsData(await getDocs(query(collection(db, "projects"), orderBy('projectNumber'))))
     } catch (err) {
       console.log(err)
     }
@@ -270,7 +275,7 @@ function DeveloperDashboard() {
         return
       }
 
-      setProjectsData(await getDocs(collection(db, "projects")))
+      setProjectsData(await getDocs(query(collection(db, "projects"), orderBy('projectNumber'))))
     }
     authenticateTokenAndGetProjectsData()
   }, [])
@@ -283,7 +288,7 @@ function DeveloperDashboard() {
   }, [projectsData])
 
   useEffect(() => {
-    setIsDataValid(name && description && technologies && details && previewImages.length && isDataChanged && !(!!linkHref ^ !!linkText))
+    setIsDataValid(projectNumber && name && description && technologies && details && previewImages.length && isDataChanged && !(!!linkHref ^ !!linkText))
   })
 
   let renderedProjectEditingMenuItem = []
@@ -327,7 +332,7 @@ function DeveloperDashboard() {
           mb: '3em',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          // justifyContent: projectEditingId ? 'space-between' : 'flex-start'
         }}>
           <FormControl sx={{ width: '20em' }}>
             <InputLabel id="projectEditingLabel">Project Editing</InputLabel>
@@ -340,7 +345,18 @@ function DeveloperDashboard() {
               {renderedProjectEditingMenuItem}
             </Select>
           </FormControl>
-          <Box sx={{ display: projectEditingId ? 'auto' : 'none' }}>
+          <TextField
+            label='No.'
+            value={projectNumber}
+            required
+            type='number'
+            onChange={e => handleOnChangeProjectTextFields((value) => { value >= 0 ? setProjectNumber(parseInt(value)) : setProjectNumber(0)}, e)}
+            sx={{
+              width: '5em',
+              ml: '1em'
+            }}>
+          </TextField>
+          <Box sx={{ display: projectEditingId ? 'auto' : 'none', ml: 'auto' }}>
             <Button variant="contained" color='error' onClick={() => setShowDeleteConfirmDialog(true)}>Delete Project</Button>
           </Box>
           <Dialog 

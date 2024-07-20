@@ -48,9 +48,11 @@ function DeveloperDashboard() {
     if (!e.target.value) {
       setProjectNumber('')
       setName('')
-      setDetails('')
-      setTechnologies('')
       setDescription('')
+      setTechnologies('')
+      setDetails('')
+      setLinkHref('')
+      setLinkText('')
       setPreviewImages([])
       setRemovedImages([])
       return
@@ -60,9 +62,11 @@ function DeveloperDashboard() {
 
     setProjectNumber(projectEditing.projectNumber)
     setName(projectEditing.name)
-    setDetails(projectEditing.details)
-    setTechnologies(projectEditing.technologies)
     setDescription(projectEditing.description)
+    setTechnologies(projectEditing.technologies)
+    setDetails(projectEditing.details)
+    setLinkHref(projectEditing.link.href)
+    setLinkText(projectEditing.link.text)
     setRemovedImages([])
 
     try {

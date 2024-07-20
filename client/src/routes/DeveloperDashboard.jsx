@@ -193,6 +193,7 @@ function DeveloperDashboard() {
         text: linkText
       }
     }
+    console.log(projectDataToSend)
 
     try {
       await axios.post('/api/save', projectDataToSend)

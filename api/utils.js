@@ -9,8 +9,8 @@ function isCleanData(req, data) {
     })
 
     if ('link' in data) {
-      if (typeof data['link']['href'] !== 'string' || data['link']['href'] === ''
-          || typeof data['link']['text'] !== 'string' || data['link']['text'] === '') {
+      if (typeof data['link']['href'] !== 'string'
+          || typeof data['link']['text'] !== 'string') {
           throw new Error('Invalid data in link.')
       }
     }

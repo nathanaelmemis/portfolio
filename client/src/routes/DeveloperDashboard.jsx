@@ -183,11 +183,9 @@ function DeveloperDashboard() {
       description: description,
       technologies: technologies,
       details: details, 
-      pictures: [...previousImageUrls, ...uploadedFileUrls]
-    }
-    if (linkHref) {
-      projectDataToSend['link'] = {
-        href: linkHref,
+      pictures: [...previousImageUrls, ...uploadedFileUrls],
+      link: {
+        href: linkHref, 
         text: linkText
       }
     }

@@ -1,21 +1,7 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 
-function Technologies({ technologies, height, sx, fadeWidth, mouseInteraction = true }) {
-    function handleTechnologiesMouseOver() {
-        const technologiesElement = document.querySelectorAll('#technology')
-        technologiesElement.forEach((element) => {
-            element.style.animationPlayState = 'paused'
-        })
-    }
-
-    function handleTechnologiesMouseOut() {
-        const technologiesElement = document.querySelectorAll('#technology')
-        technologiesElement.forEach((element) => {
-            element.style.animationPlayState = 'running'
-        })
-    }
-
+function Technologies({ technologies, height, sx, fadeWidth }) {
     useEffect(() => {
         const styleSheet = document.createElement('style');
         styleSheet.type = 'text/css';
@@ -52,8 +38,6 @@ function Technologies({ technologies, height, sx, fadeWidth, mouseInteraction = 
     return (
         <Box
             height={height}
-            onMouseOver={mouseInteraction ? handleTechnologiesMouseOver : () => {}}
-            onMouseOut={mouseInteraction ? handleTechnologiesMouseOut : () => {}}
             sx={{
                 display: 'flex',
                 position: 'relative',
@@ -78,7 +62,13 @@ function Technologies({ technologies, height, sx, fadeWidth, mouseInteraction = 
                                 justifyContent: 'center',
                                 animation: `scrollLeft ${Object.keys(technologies).length * 1}s infinite ${index * 1 + .25}s linear`,
                             }}>
-                            <img src={value} width={'64px'} title={key} style={{ objectFit: 'contain' }} />
+                            <img 
+                                src={value} 
+                                width={'100%'}
+                                title={key} 
+                                style={{ 
+                                    objectFit: 'cover'
+                                }} />
                         </Box>
                     )
                 })

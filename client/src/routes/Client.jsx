@@ -12,13 +12,19 @@ function CustomTabPanel(props) {
   return (
     <div
       role="tabpanel"
-      hidden={value !== index}
+      hidden={value !== index && index === 1}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box>
+      {(
+        <Box 
+          sx={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            opacity: value === index ? 1 : 0
+          }}>
           {children}
         </Box>
       )}

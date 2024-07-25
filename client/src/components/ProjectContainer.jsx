@@ -3,7 +3,7 @@ import { Box, Typography, Link, Button, IconButton } from "@mui/material"
 import { Link as LinkIcon, ArrowBackIos as ArrowBackIosIcon } from '@mui/icons-material';
 
 function ProjectContainer(props) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isDetailOpened, setIsDetailOpened] = useState(false);
 
   useEffect(() => {
     const projectPictureContainerElement = document.getElementById(props.projectId + '-project-picture-container')
@@ -50,7 +50,7 @@ function ProjectContainer(props) {
     position: 'relative',
     transition: 'all .5s ease',
     opacity: 1,
-    cursor: isHovered ? 'default' : 'pointer'
+    cursor: isDetailOpened ? 'default' : 'pointer'
   }
 
   if (props.isRightColumn) {
@@ -89,7 +89,7 @@ function ProjectContainer(props) {
     borderRadius: 5,
   }
 
-  if (isHovered) {
+  if (isDetailOpened) {
     frontBoxStyles.opacity = 0
     backBoxStyles.opacity = 1
     backBoxStyles.zIndex = 2
@@ -119,7 +119,7 @@ function ProjectContainer(props) {
 
   return (
     <Box
-      onClick={!isHovered ? () => setIsHovered(true) : null}
+      onClick={!isDetailOpened ? () => setIsDetailOpened(true) : null}
       height={'200px'}
       sx={boxStyles}>
       <Box
@@ -190,7 +190,7 @@ function ProjectContainer(props) {
                 alignItems: 'center',
                 mb: '-.75em'
               }}>
-              {!props.project.link ? <Box/> :
+              {!props.project.link.href ? <Box/> :
                 <Link
                   href={props.project.link.href}
                   target="_blank"
@@ -208,7 +208,7 @@ function ProjectContainer(props) {
               }
               <IconButton
                 size='large'
-                onClick={() => setIsHovered(false)}
+                onClick={() => setIsDetailOpened(false)}
                 sx={{
                   color: 'black',
                   '&:hover': { backgroundColor: 'transparent' }

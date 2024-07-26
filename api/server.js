@@ -96,8 +96,8 @@ app.post('/login', async (req, res) => {
     }
 })
 
-// ADD TOKEN VERIFICATION
-app.post('/save', async (req, res) => {
+// TODO: Add token verification
+app.post('/save_project', async (req, res) => {
     const data = req.body
 
     // data validation
@@ -126,7 +126,7 @@ app.post('/save', async (req, res) => {
     }
 })
 
-// ADD TOKEN VERIFICATION
+// TODO: Add token verification
 app.post('/new_project_id', async (req, res) => {
     utils.apiLog(req, 'Creating new project...')
 
@@ -141,7 +141,7 @@ app.post('/new_project_id', async (req, res) => {
     }
 })
 
-app.post('/delete', (req, res) => {
+app.post('/delete_project', (req, res) => {
     const data = req.body
 
     utils.apiLog(req, `Deleting project: ${data.projectId}...`)
@@ -156,6 +156,14 @@ app.post('/delete', (req, res) => {
         r.internalServerErrorOccured(res)
     }
 })
+
+/**
+ * TODO:
+ * - Add save technology
+ * - Add new technology id
+ * - Add delete technology
+ */
+
 
 app.listen(3000, () => {
     console.log('Server is listening on port 3000');

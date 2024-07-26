@@ -2,20 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import Technologies from './Technologies';
 
-function Home() {
-  const sampleTechnologies = {
-    "HTML": './home/html.png', 
-    "CSS": './home/css.png',
-    "Javascript": './home/js.png',
-    "React": './home/react.png',
-    "Electron": './home/electron.svg',
-    "PHP": './home/php.png',
-    "Node.js": './home/nodejs.svg',
-    "Express JS": './home/expressjs.svg',
-    "MySQL": './home/mysql.png',
-    "Firebase": './home/firebase.svg',
-  }
-
+function Home({ technologies }) {
   return (
     <Container sx={{
       height: 'calc(100vh - 112px)',
@@ -30,15 +17,16 @@ function Home() {
         <Typography>I am a programming enthusiast that loves to create projects I'm interested in.</Typography>
         <Typography>I graduated from the Polytechnic University of the Philippines as a Bachelor in Computer Science.</Typography>
         <Typography>I specialize in Software Development, Web Development, and Machine Learning.</Typography>
-        <Technologies 
-          technologies={sampleTechnologies}
-          height={'64px'}
-          fadeWidth={'100px'}
-          sx={{
-            mt: '2em',
-            width: '92%',
-          }}
-        />
+        {!technologies ? '' : 
+          <Technologies 
+            technologiesDocs={technologies.docs}
+            height={'64px'}
+            fadeWidth={'100px'}
+            sx={{
+              mt: '2em',
+              width: '92%',
+            }}/>
+        }
       </Box>
       <Box 
         sx={{

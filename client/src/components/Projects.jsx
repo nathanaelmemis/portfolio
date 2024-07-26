@@ -1,14 +1,10 @@
-import { database as db } from "../firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore"; 
-
 import { Container } from "@mui/material"
 
 import ProjectContainer from "./ProjectContainer"
 import { useEffect, useState } from "react"
 
-function Projects(props) {
+function Projects({ projectsData, loadingFirstImage, setLoadingFirstIamge }) {
   const [renderedProjects, setRenderedProjects] = useState([])
-  const [loadingFirstImage, setLoadingFirstIamge] = useState(-1)
 
   const handleOnLoad = (value) => {
     setLoadingFirstIamge(value)
@@ -18,8 +14,8 @@ function Projects(props) {
     let counter = 0
     let renderedProjectsTemp = []
 
-    if (props.projectsData) {
-      props.projectsData.forEach((doc) => {
+    if (projectsData) {
+      projectsData.forEach((doc) => {
         renderedProjectsTemp.push(
           <ProjectContainer 
             key={doc.id} 
@@ -35,18 +31,7 @@ function Projects(props) {
   
       setRenderedProjects(renderedProjectsTemp)
     }
-  }, [props.projectsData, loadingFirstImage])
-
-  useEffect(() => {
-    async function getProjectsData() {
-      const querySnapshot = await getDocs(query(collection(db, "projects"), orderBy('projectNumber')))
-      setLoadingFirstIamge(querySnapshot.size)
-      props.setProjectsData(querySnapshot)
-    }
-    if (!props.projectsData) {
-      getProjectsData()
-    }
-  }, [])
+  }, [projectsData, loadingFirstImage])
 
   return (
     <Container

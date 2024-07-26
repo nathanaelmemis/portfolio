@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { database as db } from "../firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; 
+
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Box } from '@mui/material';
 
@@ -48,10 +51,27 @@ function a11yProps(index) {
 function Client() {
   const [value, setValue] = useState(0);
   const [projectsData, setProjectsData] = useState(null)
+  const [loadingFirstImage, setLoadingFirstIamge] = useState(-1)
+  const [technologies, setTechnologies] = useState(null)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    async function getProjectsAndTechnologiesData() {
+      const projectsQuerySnapshot = await getDocs(query(collection(db, "projects"), orderBy('projectNumber')))
+      setLoadingFirstIamge(projectsQuerySnapshot.size)
+      setProjectsData(projectsQuerySnapshot)
+
+
+      const technologiesQuerySnapshot = await getDocs(query(collection(db, "technologies"), orderBy("technologyNumber")))
+      setTechnologies(technologiesQuerySnapshot)
+    }
+    if (!projectsData) {
+      getProjectsAndTechnologiesData()
+    }
+  }, [])
 
   return (
     <Box>
@@ -87,12 +107,14 @@ function Client() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Home />
+        <Home 
+          technologies={technologies}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Projects 
           projectsData={projectsData}
-          setProjectsData={setProjectsData} />
+          loadingFirstImage={loadingFirstImage}
+          setLoadingFirstIamge={setLoadingFirstIamge}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <ContactMe />

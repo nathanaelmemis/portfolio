@@ -2,7 +2,7 @@ import { auth } from "../firebase";
 
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Box, Toolbar, Container, Button, Select, MenuItem, FormControl, Typography } from "@mui/material";
+import { AppBar, Box, Toolbar, Container, Button, Select, MenuItem, FormControl } from "@mui/material";
 
 import DeveloperProjects from "../components/DeveloperProjects";
 import DeveloperTechnologies from "../components/DeveloperTechnologies";

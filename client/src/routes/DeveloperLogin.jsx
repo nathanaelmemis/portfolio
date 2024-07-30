@@ -64,7 +64,7 @@ function Developer() {
     }
   }
 
-  const handleFailedLoginMessageClose = (event, reason) => {
+  const handleFailedLoginMessageClose = () => {
     setIsErrorMessageShown(false)
   };
 

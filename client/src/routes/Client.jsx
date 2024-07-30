@@ -26,7 +26,8 @@ function CustomTabPanel(props) {
             position: 'absolute',
             left: 0,
             right: 0,
-            opacity: value === index ? 1 : 0
+            opacity: value === index ? 1 : 0,
+            pointerEvents: value === index ? 'auto' : 'none',
           }}>
           {children}
         </Box>

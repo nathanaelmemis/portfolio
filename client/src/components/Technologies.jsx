@@ -34,7 +34,6 @@ function Technologies({ technologiesDocs, height, sx, fadeWidth }) {
         if (technologies.length * parseInt(height) < technologiesElementWidth) {
             const numberOfDuplicatesNeeded = Math.ceil(technologiesElementWidth / (technologies.length * parseInt(height)))
             technologies = [].concat.apply([], Array(numberOfDuplicatesNeeded).fill(technologies))
-            console.log(technologies)
         }
 
         // Create keyframes

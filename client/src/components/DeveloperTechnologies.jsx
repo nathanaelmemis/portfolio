@@ -9,10 +9,7 @@ import axios from 'axios'
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 
-import { styled } from '@mui/material/styles';
-import { Box, Fade, Button, Select, MenuItem, FormControl, InputLabel, TextField, Alert, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from "@mui/material";
-import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
-import zIndex from "@mui/material/styles/zIndex";
+import { Box, Fade, Button, Select, MenuItem, FormControl, InputLabel, TextField, Alert, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 function DeveloperTechnologies() {

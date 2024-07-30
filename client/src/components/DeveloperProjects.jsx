@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography, Button, Select, MenuItem, FormControl, InputLabel, TextField, ImageList, ImageListItem, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Fade, Alert } from "@mui/material";
-import { DeleteForever } from '@mui/icons-material';
+import { DeleteForever as DeleteForeverIcon } from '@mui/icons-material';
 
 import ImagePreview from "../components/ImagePreview";
 
@@ -512,7 +512,7 @@ function DeveloperDashboard() {
 									backgroundColor: 'rgba(146, 146, 146, .9)',
 									'&:hover': { backgroundColor: 'red' }
 								}}>
-								<DeleteForever sx={{ color: 'white' }} />
+								<DeleteForeverIcon sx={{ color: 'white' }} />
 							</IconButton>
 							<ImagePreview imageFile={imageFile} loading='lazy' />
 						</ImageListItem>

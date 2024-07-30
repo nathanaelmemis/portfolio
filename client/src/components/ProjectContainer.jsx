@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Link, Button, IconButton } from "@mui/material"
+import { Box, Typography, Link, IconButton } from "@mui/material"
 import { Link as LinkIcon, ArrowBackIos as ArrowBackIosIcon } from '@mui/icons-material';
 
 function ProjectContainer(props) {
@@ -22,12 +22,7 @@ function ProjectContainer(props) {
         }
   
         const projectPictureElement = projectPictureContainerElement.children[counter]
-  
-        // projectPictureContainerElement.style.opacity = 0;
-        // projectPictureContainerElement.style.marginTop = '-10px';
-        // setTimeout(() => {
-          // projectPictureContainerElement.style.marginTop = '0';
-          // projectPictureContainerElement.style.opacity = 1;
+
         lastProjectPictureElement.style.display = 'none'
         projectPictureElement.style.display = 'block'
 

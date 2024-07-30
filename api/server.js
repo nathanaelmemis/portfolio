@@ -42,11 +42,11 @@ app.post('/login', async (req, res) => {
     const email = req.body.email;
     const hash = req.body.hash
 
-    // // data validation
-    // if (!utils.isCleanCode(darkRoomCode)) {
-    //     r.invalidData(res)
-    //     return
-    // }
+    // data validation
+    if (!utils.assertLoginData(req, req.body)) {
+        r.invalidData(res)
+        return
+    }
 
     utils.apiLog(req, `Requesting login to: ${email} ${hash}`)
 
@@ -72,7 +72,7 @@ app.post('/login', async (req, res) => {
         if (doc.data().hash !== hash) {
             // increment login attempt counter for the email
             if (doc.data().login_attempt < 3) {
-                db.collection('users').doc(email).update({
+                await db.collection('users').doc(email).update({
                     login_attempt: doc.data().login_attempt + 1
                 })
             }
@@ -82,7 +82,7 @@ app.post('/login', async (req, res) => {
             return
         }
 
-        db.collection('users').doc(email).update({
+        await db.collection('users').doc(email).update({
             login_attempt: 1
         })
 

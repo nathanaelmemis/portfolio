@@ -1,5 +1,24 @@
 const assert = require('assert')
 
+function assertLoginData(req, data) {
+	try {
+		// Check if all keys are present
+		const keys = ['email', 'password']
+
+		keys.forEach(key => {
+			assert(key in data, `Missing key: ${key}.`)
+		})
+
+		// Check if string datas are valid
+		keys.forEach(key => {
+			assert(typeof data[key] === 'string', `Invalid data in ${key}.`)
+		})
+	} catch (err) { // catches missing keys
+		apiLog(req, err)
+		return false
+	}
+}
+
 function assertPostSaveData(req, isProject, data) {
 	try {
 		if (isProject) {
@@ -103,6 +122,7 @@ function apiLog(req, msg) {
 }
 
 module.exports = {
+	assertLoginData: assertLoginData,
 	assertPostSaveData: assertPostSaveData,
 	assertPostNewData: assertPostNewData,
 	assertPostDeleteData: assertPostDeleteData,

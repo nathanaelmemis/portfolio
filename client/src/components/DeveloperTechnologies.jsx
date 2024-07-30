@@ -370,7 +370,7 @@ function DeveloperTechnologies() {
 					mt: '3em',
 				}}>
 				<Button
-					disabled={!isDataChanged || !isLoading}
+					disabled={!isDataChanged || isLoading}
 					variant="contained"
 					onClick={handleOnClickCancelButton}
 					sx={{

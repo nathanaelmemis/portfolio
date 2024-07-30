@@ -35,7 +35,7 @@ function Developer() {
       setEmail('')
       setPassword('')
       setIsFailedLogin(true)
-      setErrorMessage(err.response.data.message)
+      setErrorMessage(err.response.data.message ? err.response.data.message : err.code)
       setIsErrorMessageShown(true)
     }
 

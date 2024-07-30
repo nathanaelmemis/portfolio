@@ -74,7 +74,9 @@ function Technologies({ technologiesDocs, height, sx, fadeWidth }) {
                         width={'100%'}
                         title={technology.name} 
                         style={{ 
-                            objectFit: 'cover',
+                            objectFit: 'contain',
+                            maxWidth: '100%',
+                            maxHeight: '100%',
                             zIndex: 100
                         }} />
                 </Box>

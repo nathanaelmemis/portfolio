@@ -34,8 +34,8 @@ app.use(corsPolicy);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.get('/test', (req, res) => {
-    res.send('Hello World!')
+app.get('/meow', (req, res) => {
+    res.send('pss pss pss pss')
 })
 
 app.post('/login', async (req, res) => {
@@ -96,74 +96,103 @@ app.post('/login', async (req, res) => {
     }
 })
 
-// TODO: Add token verification
-app.post('/save_project', async (req, res) => {
+// Dynamic API for saving project or technology
+app.post('/save', async (req, res) =>{
     const data = req.body
 
+    // Determine if data is project or technology
+    const isProject = data.technologyId === undefined 
+    const categoryType = isProject ? 'project' : 'technology'
+    
     // data validation
-    if (!utils.isCleanData(req, data)) {
+    if (!utils.assertPostSaveData(req, isProject, data)) {
         r.invalidData(res)
         return
     }
 
-    utils.apiLog(req, `Saving project: ${data.name}, ${data}`)
+    utils.apiLog(req, `Saving ${categoryType}: ${data.name}, ${data}`)
 
     try {
-        // upload all data to firestore
-        const docRef = db.collection('projects').doc(data.projectId)
+        // Verify token
+        await admin.auth().verifyIdToken(data.idToken)
 
-        // delete idToken from object data
+        // upload all data to firestore
+        const docRef = db.collection(isProject ? 'projects' : 'technologies').doc(isProject ? data.projectId : data.technologyId)
+
+        // delete idToken & projectId from object data
         delete data.idToken
+        isProject ? delete data.projectId : delete data.technologyId
 
         await docRef.update(data)
 
         // give response
-        utils.apiLog(req, `Project successfully saved: ${data.name}`)
+        utils.apiLog(req, `Successfully saved ${categoryType}: ${data.name}`)
         r.success(res)
     } catch (err) {
-        utils.apiLog(req, `Failed to save project: ${data.name}`)
+        utils.apiLog(req, `Failed to save ${categoryType}: ${data.name}`)
         r.internalServerErrorOccured(res)
     }
 })
 
-// TODO: Add token verification
-app.post('/new_project_id', async (req, res) => {
-    utils.apiLog(req, 'Creating new project...')
-
-    try {
-        const newProject = await db.collection('projects').add({})
-
-        utils.apiLog(req, `Successfully create new project: ${newProject.id}`)
-        r.success(res, {projectId: newProject.id})
-    } catch (err) {
-        utils.apiLog(req, `Failed to create new project: ${err}`)
-        r.internalServerErrorOccured(res)
-    }
-})
-
-app.post('/delete_project', (req, res) => {
+// Dynamic API for creating new project or technology
+app.post('/new_id', async (req, res) => {
     const data = req.body
 
-    utils.apiLog(req, `Deleting project: ${data.projectId}...`)
+    // Determine if data is project or technology
+    const isProject = data.technologyId === undefined 
+    const categoryType = isProject ? 'project' : 'technology'
+
+    if (!utils.assertPostNewData(req, isProject, data)) {
+        r.invalidData(res)
+        return
+    }
+
+    utils.apiLog(req, `Creating new ${categoryType}...`)
 
     try {
-        db.collection('projects').doc(data.projectId).delete()
+        // Verify token
+        await admin.auth().verifyIdToken(req.body.idToken)
 
-        utils.apiLog(req, `Successfully deleted project: ${data.projectId}.`)
-        r.success(res)
+        const newDoc = await db.collection(isProject ? 'projects' : 'technologies').add({})
+
+        utils.apiLog(req, `Successfully create new ${categoryType}: ${newDoc.id}`)
+        r.success(res, isProject ? {projectId: newDoc.id} : {technologyId: newDoc.id})
     } catch (err) {
-        utils.apiLog(req, `Failed to delete project: ${data.projectId}.`)
+        utils.apiLog(req, `Failed to create new ${categoryType}: ${err}`)
         r.internalServerErrorOccured(res)
     }
 })
 
-/**
- * TODO:
- * - Add save technology
- * - Add new technology id
- * - Add delete technology
- */
+// Dynamic API for deleting project or technology
+app.post('/delete', async (req, res) => {
+    const data = req.body
 
+    // Determine if data is project or technology
+    const isProject = data.technologyId === undefined 
+    const categoryType = isProject ? 'project' : 'technology'
+
+    if (!utils.assertPostDeleteData(req, isProject, data)) {
+        r.invalidData(res)
+        return
+    }
+
+    const categoryId = isProject ? data.projectId : data.technologyId
+
+    utils.apiLog(req, `Deleting ${categoryType}: ${categoryId}...`)
+
+    try {
+        // Verify token
+        await admin.auth().verifyIdToken(req.body.idToken)
+        
+        db.collection(isProject ? 'projects' : 'technologies').doc(categoryId).delete()
+
+        utils.apiLog(req, `Successfully deleted ${categoryType}: ${categoryId}.`)
+        r.success(res)
+    } catch (err) {
+        utils.apiLog(req, `Failed to delete ${categoryType}: ${categoryId}.`)
+        r.internalServerErrorOccured(res)
+    }
+})
 
 app.listen(3000, () => {
     console.log('Server is listening on port 3000');

@@ -104,7 +104,9 @@ function DeveloperTechnologies() {
 	}
 
 	function handleOnClickCancelButton() {
-		setTechnologyData(technologyEditingId);
+		handleOnChangeMenuSelect({ target: { value: '' } })
+		handleOnChangeMenuSelect({ target: { value: technologyEditingId } })
+		setIsDataChanged(false)
 	}
 
 	function handleFileChange(e) {

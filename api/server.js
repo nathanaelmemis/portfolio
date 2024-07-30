@@ -39,59 +39,58 @@ app.get('/meow', (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-    const email = req.body.email;
-    const hash = req.body.hash
+    const data = req.body
 
     // data validation
-    if (!utils.assertLoginData(req, req.body)) {
+    if (!utils.assertLoginData(req, data)) {
         r.invalidData(res)
         return
     }
 
-    utils.apiLog(req, `Requesting login to: ${email} ${hash}`)
+    utils.apiLog(req, `Requesting login to: ${data.email} ${data.hash}`)
 
     try {
-        const docRef = db.collection('users').doc(email);
+        const docRef = db.collection('users').doc(data.email);
         const doc = await docRef.get()
 
         // check if email is valid
         if (!doc.exists) {
-            utils.apiLog(req, `Failed to log in user: ${email}`)
+            utils.apiLog(req, `Failed to log in user: ${data.email}`)
             r.failedLogin(res, 'Invalid Credentials.')
             return
         }
 
         // check if exceeding login attempt limit
         if (doc.data().login_attempt >= 3) {
-            utils.apiLog(req, `Failed to log in user: ${email}`)
+            utils.apiLog(req, `Failed to log in user: ${data.email}`)
             r.failedLogin(res, 'No attempts remaining. Developer account locked.')
             return
         }
 
         // check if hash is same
-        if (doc.data().hash !== hash) {
+        if (doc.data().hash !== data.hash) {
             // increment login attempt counter for the email
             if (doc.data().login_attempt < 3) {
-                await db.collection('users').doc(email).update({
+                await db.collection('users').doc(data.email).update({
                     login_attempt: doc.data().login_attempt + 1
                 })
             }
 
-            utils.apiLog(req, `Failed to log in user: ${email}`)
+            utils.apiLog(req, `Failed to log in user: ${data.email}`)
             r.failedLogin(res, `Invalid Credentials. ${(doc.data().login_attempt + 1 < 3 ? 3 - doc.data().login_attempt + 1 : 'No')} attempts remaining.`)
             return
         }
 
-        await db.collection('users').doc(email).update({
+        await db.collection('users').doc(data.email).update({
             login_attempt: 1
         })
 
-        const clientToken = await admin.auth().createCustomToken(email)
+        const clientToken = await admin.auth().createCustomToken(data.email)
 
-        utils.apiLog(req, `User successfully logged in: ${email}`)
+        utils.apiLog(req, `User successfully logged in: ${data.email}`)
         r.success(res, { clientToken })
     } catch (err) {
-        utils.apiLog(req, `Failed to log in user: ${email}`)
+        utils.apiLog(req, `Failed to log in user: ${data.email}`)
         r.internalServerErrorOccured(res)
     }
 })
@@ -142,7 +141,7 @@ app.post('/new_id', async (req, res) => {
     const isProject = data.technologyId === undefined 
     const categoryType = isProject ? 'project' : 'technology'
 
-    if (!utils.assertPostNewData(req, isProject, data)) {
+    if (!utils.assertPostNewData(req, data)) {
         r.invalidData(res)
         return
     }
@@ -151,7 +150,7 @@ app.post('/new_id', async (req, res) => {
 
     try {
         // Verify token
-        await admin.auth().verifyIdToken(req.body.idToken)
+        await admin.auth().verifyIdToken(data.idToken)
 
         const newDoc = await db.collection(isProject ? 'projects' : 'technologies').add({})
 

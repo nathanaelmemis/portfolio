@@ -3,7 +3,7 @@ const assert = require('assert')
 function assertLoginData(req, data) {
 	try {
 		// Check if all keys are present
-		const keys = ['email', 'password']
+		const keys = ['email', 'hash']
 
 		keys.forEach(key => {
 			assert(key in data, `Missing key: ${key}.`)
@@ -13,10 +13,12 @@ function assertLoginData(req, data) {
 		keys.forEach(key => {
 			assert(typeof data[key] === 'string', `Invalid data in ${key}.`)
 		})
-	} catch (err) { // catches missing keys
+	} catch (err) {
 		apiLog(req, err)
 		return false
 	}
+
+	return true
 }
 
 function assertPostSaveData(req, isProject, data) {
@@ -75,7 +77,7 @@ function assertPostSaveData(req, isProject, data) {
 	return true
 }
 
-function assertPostNewData(req, isProject, data) {
+function assertPostNewData(req, data) {
 	try {
 		const key = 'idToken'
 		// Check if key is present

@@ -65,7 +65,6 @@ function Client() {
       setLoadingFirstIamge(projectsQuerySnapshot.size)
       setProjectsData(projectsQuerySnapshot)
 
-
       const technologiesQuerySnapshot = await getDocs(query(collection(db, "technologies"), orderBy("technologyNumber")))
       setTechnologies(technologiesQuerySnapshot)
     }

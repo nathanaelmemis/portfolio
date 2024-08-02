@@ -1,13 +1,19 @@
-import { Box, Container, Typography } from '@mui/material';
+import { useState } from 'react';
+
+import { Box, Container, Typography, Button } from '@mui/material';
+import { OpenInNew as OpenInNewIcon } from '@mui/icons-material';
 
 import Technologies from './Technologies';
 
 function Home({ technologies }) {
+	const [isImageHovered, setIsImageHovered] = useState(false);
 	return (
 		<Container sx={{
 			height: 'calc(100vh - 112px)',
 			display: 'flex'
 		}}>
+
+			{/* Left Column */}
 			<Box sx={{
 				pt: '10em',
 				width: '65%'
@@ -32,7 +38,8 @@ function Home({ technologies }) {
 				<Typography>I am a programming enthusiast that loves to create projects I'm interested in.</Typography>
 				<Typography>I graduated from the Polytechnic University of the Philippines as a Bachelor in Computer Science.</Typography>
 				<Typography>I specialize in Software Development, Web Development, and Machine Learning.</Typography>
-				{!technologies ? '' :
+				{!technologies ? 
+					<Box height={'calc(64px + 2em)'}></Box>:
 					<Technologies
 						technologiesDocs={technologies.docs}
 						height={'64px'}
@@ -42,7 +49,21 @@ function Home({ technologies }) {
 							width: '92%',
 						}} />
 				}
+				<Button 
+					variant='contained' 
+					color='secondary'
+					startIcon={<OpenInNewIcon />}
+					href='https://drive.google.com/file/d/1iqaPmTCRiSrtm7q9Bugz7bU2aR7krSJI/view'
+					target='_blank'
+					sx={{
+						borderRadius: 5,
+						mt: '2em',
+						textTransform: 'none',
+						
+					}}>Resume</Button>
 			</Box>
+
+			{/* Right Column */}
 			<Box
 				sx={{
 					width: '35%',
@@ -60,8 +81,20 @@ function Home({ technologies }) {
 						position: 'absolute',
 					}} />
 					<img
-						src='./home/nathan.png'
+						src='./home/background.png'
 						width={'350px'}/>
+					<img 
+						onMouseOver={() => setIsImageHovered(true)}
+						onMouseOut={() => setIsImageHovered(false)}
+						src='./home/nathan.png'
+						width={'350px'}
+						style={{
+							position: 'absolute',
+							left: 0,
+							top: 0,
+							transition: 'transform 1.5s ease',
+							transform: isImageHovered ? 'scale(1.05) translateX(-7.5px) translateY(-2px)' : 'scale(1) translateX(-7.5px) translateY(0)',
+						}}/>
 				</Box>
 				<Box sx={{
 					width: '110%',

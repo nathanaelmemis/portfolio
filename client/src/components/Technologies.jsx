@@ -76,7 +76,6 @@ function Technologies({ technologiesDocs, height, sx, fadeWidth }) {
                             objectFit: 'contain',
                             maxWidth: '100%',
                             maxHeight: '100%',
-                            zIndex: 100
                         }} />
                 </Box>
             )

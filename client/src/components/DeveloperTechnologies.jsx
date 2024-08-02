@@ -34,7 +34,7 @@ function DeveloperTechnologies() {
 	const developerToken = localStorage.getItem('developerToken')
 	const navigate = useNavigate();
 
-	// Authenticate token and get projects data
+	// Authenticate token and get technology data
 	useEffect(() => {
 		async function authenticateTokenAndGetTechnologiesData() {
 			try {

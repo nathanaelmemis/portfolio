@@ -249,13 +249,13 @@ function DeveloperDashboard() {
 		}
 	}
 
-	const handleFileChange = (e) => {
-		setPreviewImages([...previewImages, ...Array.from(e.target.files)])
+	function handleFileChange(e) {
+		setPreviewImages([...previewImages, ...Array.from(e.target.files)]);
 
-		setIsDataChanged(true)
+		setIsDataChanged(true);
 
-		e.target.value = ''
-	};
+		e.target.value = '';
+	}
 
 	function handleOnClickDeleteImageButton(index, isFile) {
 		if (!isFile) {
@@ -271,6 +271,7 @@ function DeveloperDashboard() {
 		setIsDataChanged(true)
 	}
 
+	// Authenticate token and get projects data
 	useEffect(() => {
 		async function authenticateTokenAndGetProjectsData() {
 			try {
@@ -288,6 +289,7 @@ function DeveloperDashboard() {
 		authenticateTokenAndGetProjectsData()
 	}, [])
 
+	// Render select projects editing menu items
 	useEffect(() => {
 		let renderedProjectEditingMenuItemTemp = []
 
@@ -312,6 +314,7 @@ function DeveloperDashboard() {
 		setIsLoading(false)
 	}, [projectsData])
 
+	// Check validity every render
 	useEffect(() => {
 		setIsDataValid(projectNumber && name && description && technologies && details && previewImages.length && isDataChanged && !(!!linkHref ^ !!linkText))
 	})
@@ -324,7 +327,6 @@ function DeveloperDashboard() {
 					mb: '3em',
 					display: 'flex',
 					alignItems: 'center',
-					// justifyContent: projectEditingId ? 'space-between' : 'flex-start'
 				}}>
 					<FormControl sx={{ width: '20em' }}>
 						<InputLabel id="projectEditingLabel">Project Editing</InputLabel>

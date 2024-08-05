@@ -11,6 +11,12 @@ function ProjectContainer({ projectId, project, index, loadingFirstImage, handle
 	// Image change interval
 	useEffect(() => {
 		const projectPictureContainerElement = document.getElementById(projectId + '-project-picture-container')
+
+        // no need to do intervals on a single image
+        if (projectPictureContainerElement.children.length <= 1) {
+            return
+        }
+
 		let lastProjectPictureElement = projectPictureContainerElement.children[0]
 		let counter = 0
 		let intervalId = null
@@ -38,7 +44,7 @@ function ProjectContainer({ projectId, project, index, loadingFirstImage, handle
 		return () => {
 			clearInterval(intervalId)
 		}
-	}, [])
+	}, [renderedImages])
 
 	const boxStyles = {
 		display: 'flex',
@@ -104,7 +110,8 @@ function ProjectContainer({ projectId, project, index, loadingFirstImage, handle
 			renderedImagesTemp.push(
 				<img
 					onLoad={index == 0 ? () => handleOnLoad(loadingFirstImage - 1) : () => { }}
-					id={projectId + '-project-picture-' + index}
+					id={`${projectId}-project-picture-${index}`}
+                    className='responsive-image'
 					key={index}
 					src={imageUrl}
 					width={'320px'}
@@ -120,6 +127,27 @@ function ProjectContainer({ projectId, project, index, loadingFirstImage, handle
 
 		setRenderedImages(renderedImagesTemp)
 	}, [project.pictures])
+
+    // Set image object-fit
+    useEffect(() => {
+        const imageElements = document.querySelectorAll('.responsive-image');
+
+        if (!imageElements.length) {
+            return
+        }
+
+        imageElements.forEach((imageElement) => {
+            const aspectRatio = imageElement.naturalWidth / imageElement.naturalHeight
+
+            if (aspectRatio > 1) {
+                // Landscape
+                imageElement.style.objectFit = 'cover';
+            } else {
+                // Portrait
+                imageElement.style.objectFit = 'scale-down';
+            }
+        })
+    }, [renderedImages])
 
 	function handleImageMouseOver() {
 		setIsImageMouseOver(true)
@@ -163,6 +191,7 @@ function ProjectContainer({ projectId, project, index, loadingFirstImage, handle
 						height: '200px',
 						transition: 'all .5s ease',
 						zIndex: 1,
+                        backgroundColor: 'rgba(0, 0, 0, .3)'
 					}}>
 					{renderedImages}
 				</Box>

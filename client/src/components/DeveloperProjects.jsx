@@ -12,7 +12,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Typography, Button, Select, MenuItem, FormControl, InputLabel, TextField, ImageList, ImageListItem, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Fade, Alert } from "@mui/material";
 import { DeleteForever as DeleteForeverIcon } from '@mui/icons-material';
 
-import ImagePreview from "../components/ImagePreview";
+import ImagePreview from "./DeveloperImagePreview";
 
 function DeveloperDashboard() {
 	const [idToken, setIdToken] = useState('')

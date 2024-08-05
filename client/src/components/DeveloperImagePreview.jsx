@@ -20,7 +20,7 @@ function ImagePreview({ imageFile, loading }) {
             height={'200px'}
             loading={loading}
             style={{
-                objectFit: 'cover'
+                objectFit: 'cover',
             }} />
     )
 }

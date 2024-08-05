@@ -5,10 +5,44 @@ import { Close as CloseIcon } from "@mui/icons-material";
 
 function ZoomedImagePreview({ images, handleOnClose }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
+    const [previewImage, setPreviewImage] = useState('')
+    const [isLandscape, setIsLandscape] = useState(true)
 
+    // Set initial preview image
     useEffect(() => {
         setCurrentImageIndex(0)
+        setPreviewImage(images[0])
     }, [images])
+
+    // Set object-fit property based on image aspect ratio
+    useEffect(() => {
+        const imageElement = document.querySelector('.zoomed-responsive-image');
+
+        console.log(imageElement)
+
+        if (!imageElement) {
+            return
+        }
+
+        const aspectRatio = imageElement.naturalWidth / imageElement.naturalHeight
+
+        if (aspectRatio > 1) {
+            // Landscape
+            imageElement.style.objectFit = 'auto';
+            setIsLandscape(true)
+            console.log('landscape')
+        } else {
+            // Portrait
+            imageElement.style.objectFit = 'scale-down';
+            setIsLandscape(false)
+            console.log('portrait')
+        }
+    }, [previewImage])
+
+    function handleOnChangePagination(value) {
+        setCurrentImageIndex(value - 1)
+        setPreviewImage(images[value - 1])
+    }
 
     return (
         images.length <= 0 ? <></> : <>
@@ -38,6 +72,8 @@ function ZoomedImagePreview({ images, handleOnClose }) {
                     zIndex: 4,
                     pb: '3em',
                     borderRadius: 5,
+                    width: !isLandscape ? '960px' : undefined,
+                    backgroundColor: 'gray',
                 }
             }>
                 <Box
@@ -48,7 +84,7 @@ function ZoomedImagePreview({ images, handleOnClose }) {
                         display: 'flex',
                         justifyContent: 'flex-end',
                         alignItems: 'center',
-                        borderRadius: 5,
+                        borderRadius: '25px 25px 0 0',
                     }}
                 >
                     <CloseIcon 
@@ -59,21 +95,34 @@ function ZoomedImagePreview({ images, handleOnClose }) {
                         }}/>
                 </Box>
                 <img 
-                    src={images[currentImageIndex]}
-                    width={'720px'}
-                />
-                <Pagination
-                    count={images.length}
-                    page={currentImageIndex + 1}
-                    color={'secondary'}
-                    onChange={(event, value) => setCurrentImageIndex(value - 1)}
-                    sx={{
-                        position: 'absolute',
-                        bottom: '.5em',
-                        left: '50%',
-                        transform: 'translateX(-50%)'
+                    className="zoomed-responsive-image"
+                    src={previewImage}
+                    width={!isLandscape ? '960px' : undefined}
+                    height={'600px'}
+                    style={{
+                        objectFit: 'auto',
                     }}
                 />
+                <Box
+                    sx={{
+                        backgroundColor: 'white',
+                        width: '100%',
+                        position: 'absolute',
+                        bottom: '0',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        p: '.75em 0',
+                        borderRadius: '0 0 25px 25px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
+                    <Pagination
+                        count={images.length}
+                        page={currentImageIndex + 1}
+                        color={'secondary'}
+                        onChange={(event, value) => handleOnChangePagination(value)}
+                    />
+                </Box>
             </Box>
         </>
     )

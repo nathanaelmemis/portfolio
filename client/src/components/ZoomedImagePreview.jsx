@@ -18,8 +18,6 @@ function ZoomedImagePreview({ images, handleOnClose }) {
     useEffect(() => {
         const imageElement = document.querySelector('.zoomed-responsive-image');
 
-        console.log(imageElement)
-
         if (!imageElement) {
             return
         }
@@ -30,12 +28,10 @@ function ZoomedImagePreview({ images, handleOnClose }) {
             // Landscape
             imageElement.style.objectFit = 'auto';
             setIsLandscape(true)
-            console.log('landscape')
         } else {
             // Portrait
             imageElement.style.objectFit = 'scale-down';
             setIsLandscape(false)
-            console.log('portrait')
         }
     }, [previewImage])
 

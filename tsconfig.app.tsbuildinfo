@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/contactmeandfindmeon.tsx","./src/components/name.tsx","./src/components/projects.tsx","./src/components/spacebackground.tsx","./src/components/technologies.tsx","./src/data/descriptions.ts","./src/data/projects.ts","./src/data/technolgies.ts","./src/hooks/mousepositionhook.tsx"],"version":"5.6.3"}

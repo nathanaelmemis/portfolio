@@ -23,44 +23,51 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index }: ProjectCardProps) {
     return (
-        <div className={styles.scrollSlideFadeIn}>
-            <div 
-                className={styles.projectCard}
-                style={{
-                    animationDelay: `${Math.random() * 2}s`
-                }}
-            >
-                <div className={styles.screenContainer}>
-                    <Laptop 
-                        index={index + 1}
-                        alt={`${project.name} desktop`}
-                        stretchImage={project.stretchImage}
-                    />
-                    {
-                        project.hasMobile && 
-                        <Mobile 
+        <div 
+            className={styles.slideFadeIn}
+            style={{
+                animationDelay: `${1300 + (index * 200)}ms`
+            }}
+        >
+            <div className={styles.scrollSlideFadeIn}>
+                <div 
+                    className={styles.projectCard}
+                    style={{
+                        animationDelay: `${Math.random() * 2}s`
+                    }}
+                >
+                    <div className={styles.screenContainer}>
+                        <Laptop 
                             index={index + 1}
-                            alt={`${project.name} mobile`}
+                            alt={`${project.name} desktop`}
+                            stretchImage={project.stretchImage}
                         />
-                    }
-                </div>
-                <h3>{project.name}</h3>
-                <p className={styles.description}>{project.description}</p>
-                <div className={styles.linksContainer}>
-                    {
-                        project.links.map((link, index) => {
-                            return (
-                                <a 
-                                    key={index} 
-                                    href={link.url} 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                >
-                                    {link.text}
-                                </a>
-                            )
-                        })
-                    }
+                        {
+                            project.hasMobile && 
+                            <Mobile 
+                                index={index + 1}
+                                alt={`${project.name} mobile`}
+                            />
+                        }
+                    </div>
+                    <h3>{project.name}</h3>
+                    <p className={styles.description}>{project.description}</p>
+                    <div className={styles.linksContainer}>
+                        {
+                            project.links.map((link, index) => {
+                                return (
+                                    <a 
+                                        key={index} 
+                                        href={link.url} 
+                                        target="_blank" 
+                                        rel="noreferrer"
+                                    >
+                                        {link.text}
+                                    </a>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>

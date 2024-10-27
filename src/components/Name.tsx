@@ -46,6 +46,20 @@ export function Name() {
                         <div className={styles.postNameDescribeBackground} />
                     </div>
                 </div>
+                <div className={`${styles.downlaodResumeContainer} ${styles.slideFadeIn}`}>
+                    <a href='/NathanaelMemis_Resume.pdf' download>   
+                        <p>
+                            <img src="/images/download.png" alt="Download Resume" />
+                            Download Resume
+                        </p>
+                    </a>
+                    <div className={styles.antenna}>
+                        <div className={styles.signal} />
+                    </div>
+                    <div className={styles.antenna2}>
+                        <div className={styles.signal2} />
+                    </div>
+                </div>
             </div>
         </div>
     )

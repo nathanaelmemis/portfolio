@@ -37,6 +37,13 @@ export function SpaceBackground() {
         spaceElement.style.height = `${actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
         spaceElement.style.width = `${window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
 
+        const spaceStationElement = document.querySelector(`.${styles.spaceStationArea}`) as HTMLElement
+        if (window.innerWidth > actualWebsiteHeight) {
+            spaceStationElement.style.height = `calc(${actualWebsiteHeight / WEBSITE_HEIGHT_REDUCE}px - 20em)`
+        } else {
+            spaceStationElement.style.height = '100vw'
+        }
+
         spaceShip.current = <SpaceShip websiteHeight={actualWebsiteHeight} />
 
         setWebsiteHeight(actualWebsiteHeight)
@@ -87,7 +94,7 @@ interface SpaceShipProps {
 
 function SpaceShip({ websiteHeight }: SpaceShipProps) {
     useEffect(() => {
-        let spaceShipPosition = { x: 20, y: 20, rotateDeg: 0 }
+        let spaceShipPosition = { x: 0, y: -100, rotateDeg: 0 }
 
         const acutaulWebsiteHeight = websiteHeight / WEBSITE_HEIGHT_REDUCE
 

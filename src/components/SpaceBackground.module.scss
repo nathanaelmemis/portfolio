@@ -61,8 +61,8 @@ $spaceStationSignal: red;
     position: absolute;
     transition: rotate 5s ease-out, top 10s ease-out, left 10s ease-out;
     height: 91px;
-    top: 20px;
-    left: 20px;
+    top: -100px;
+    left: 0;
     rotate: 0deg;
     z-index: 999;
     cursor: pointer;
@@ -208,7 +208,6 @@ $spaceStationSignal: red;
     z-index: -1;
     left: calc(100vw);
     top: 20em;
-    height: 100vw;
 
     @keyframes spinArea {
         0% {
@@ -316,5 +315,11 @@ $spaceStationSignal: red;
                 margin-top: 2.5px;
             }
         }
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .spaceShip {
+        filter: none;
     }
 }

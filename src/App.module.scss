@@ -1,0 +1,27 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+body {
+    background-color: black;
+    margin: 0;
+    font-family: 'Montserrat';
+}
+
+.appContainer {
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(15, 15, 15);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(49, 49, 49); 
+    border-radius: 10px;    
+}

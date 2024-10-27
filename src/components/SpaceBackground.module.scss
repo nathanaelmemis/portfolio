@@ -1,0 +1,320 @@
+$rocketParts: rgb(171, 35, 35);
+$grey: #646464;
+$spaceStationParts: rgb(229, 229, 229);
+$spaceStationPanels: rgb(0, 0, 128);
+$spaceStationSignal: red;
+
+.space {
+    top: 0;
+    left: 0;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    position: absolute;
+    z-index: -999;
+    transition: top .5s ease-out, left .5s ease-out;
+    transform: translateZ(-10px) scale(11);
+}
+
+.starContainer {
+    position: relative;
+
+    & .star {
+        opacity: 0;
+        position: absolute;
+        animation: twinkle ease infinite;
+    
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    
+        &:before{
+            content: "";
+            position: absolute;
+            background: $spaceStationParts;
+            width: 1em;
+            height: 1.15em;
+            transform: rotate(-45deg) skewX(22.5deg) skewY(22.5deg);
+        }
+    
+        &:after{
+            content: "";
+            position: absolute;
+            background: $spaceStationParts;
+            width: 1em;
+            height: 1.15em;
+            transform: rotate(45deg) skewX(22.5deg) skewY(22.5deg);
+        }
+    }
+}
+
+.spaceShip {
+    position: absolute;
+    transition: rotate 5s ease-out, top 10s ease-out, left 10s ease-out;
+    height: 91px;
+    top: 20px;
+    left: 20px;
+    rotate: 0deg;
+    z-index: 999;
+    cursor: pointer;
+    filter: drop-shadow(5px 5px 1px black);
+
+    & .head {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 15px solid $rocketParts;
+    }
+
+    & .body {
+        width: 20px;
+        height: 35px;
+        background-color: $grey;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: -1;
+
+        & .leftThrusterFlameWrapper {
+            position: absolute;
+            height: 5px;
+            rotate: 90deg;
+            left: -6px;
+            top: 5px;
+            opacity: 0;
+
+            & .leftThrusterFlame {
+                width: 0;
+                height: 0;
+                border-top: 5px solid orange;
+                border-left: 2px solid transparent;
+                border-right: 2px solid transparent;
+                animation: thrusterFlame .3s infinite linear;
+            }
+        }
+
+        & .window {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgb(36, 131, 186);
+            border-radius: 50%;
+            top: 5px;
+            border: black 1px solid;
+        }
+
+        & .rightThrusterFlameWrapper {
+            position: absolute;
+            height: 5px;
+            rotate: -90deg;
+            left: 22px;
+            top: 5px;
+            opacity: 0;
+
+            & .rightThrusterFlame {
+                width: 0;
+                height: 0;
+                border-top: 5px solid orange;
+                border-left: 2px solid transparent;
+                border-right: 2px solid transparent;
+                animation: thrusterFlame .3s infinite linear;
+            }
+        }
+
+        @keyframes thrusterFlame {
+            0% {
+                border-top: 5px solid orange;
+            }
+            50% {
+                border-top: 3px solid orange;
+            }
+            100% {
+                border-top: 5px solid orange;
+            }
+        }
+    }
+
+    & .tail {
+        display: flex;
+        margin-left: -10px;
+        margin-top: -12px;
+
+        & .leftTriangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid $rocketParts;
+            border-right: 0 solid transparent;
+            border-bottom: 16px solid $rocketParts;
+            border-radius: 10px 0 0 0;
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0% 100%);
+        }
+
+        & .center {
+            margin: 0 7.5px;
+            width: 5px;
+            height: 16px;
+            background-color: $rocketParts;
+        }
+
+        & .rightTriangle {
+            width: 0;
+            height: 0;
+            border-left: 0 solid transparent;
+            border-right: 10px solid $rocketParts;
+            border-bottom: 16px solid $rocketParts;
+            border-radius: 0 10px 0 10px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
+        }
+    }
+
+    & .mainEngineFlame {
+        width: 0;
+        height: 0;
+        border-top: 35px solid orange;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        margin-top: -2px;
+        margin-left: 5px;
+        opacity: 0;
+        animation: mainEngineFlameBurn .3s infinite linear;
+    }
+
+    @keyframes mainEngineFlameBurn {
+        0% {
+            border-top: 30px solid orange;
+        }
+        50% {
+            border-top: 28px solid orange;
+        }
+        100% {
+            border-top: 30px solid orange;
+        }
+    }
+}
+
+.spaceStationArea {
+    position: absolute;
+    animation: spinArea 30s 2s linear infinite;
+    z-index: -1;
+    left: calc(100vw);
+    top: 20em;
+    height: 100vw;
+
+    @keyframes spinArea {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-360deg);
+        }
+    }
+
+    & .spaceStation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        animation: spinSpaceStation 10s linear infinite;
+    
+        @keyframes spinSpaceStation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+    
+        & .leftWing {
+            margin-top: 4px;
+            width: 40px;
+            height: 30px;
+            margin-right: 2.5px;
+    
+            & .firstPanel {
+                width: 40px;
+                height: 13.75px;
+                background-color: rgb(0, 0, 128);
+            }
+    
+            & .secondPanel {
+                width: 40px;
+                height: 13.75px;
+                background-color: rgb(0, 0, 128);
+                margin-top: 2.5px;
+            }
+        }
+        
+        & .mainModule {
+            & .upperDome {
+                width: 20px;
+                height: 2.5px;
+                background-color: $spaceStationParts;
+                border-radius: 2.5px 2.5px 0 0;
+                border-bottom: 1.5px solid $grey;
+            }
+    
+            & .middlePart {
+                width: 17px;
+                height: 27px;
+                background-color: $spaceStationParts;
+                padding: 3px 0 0 3px;
+
+                & .signal {
+                    width: 3px;
+                    height: 3px;
+                    background-color: $spaceStationSignal;
+                    border-radius: 50%;
+                    animation: blink 1s infinite;
+
+                    @keyframes blink {
+                        0%, 49% {
+                            opacity: 0;
+                        }
+                        50%, 99% {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+    
+            & .lowerDome {
+                width: 20px;
+                height: 10px;
+                background-color: $spaceStationParts;
+                border-radius: 0 0 12.5px 12.5px;
+                border-top: 1.5px solid $grey;
+            }
+        }
+    
+        & .rightWing {
+            margin-top: 4px;
+            width: 40px;
+            height: 30px;
+            margin-left: 2.5px;
+    
+            & .firstPanel {
+                width: 40px;
+                height: 13.75px;
+                background-color: $spaceStationPanels;
+            }
+    
+            & .secondPanel {
+                width: 40px;
+                height: 13.75px;
+                background-color: $spaceStationPanels;
+                margin-top: 2.5px;
+            }
+        }
+    }
+}

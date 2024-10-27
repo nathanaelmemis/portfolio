@@ -1,0 +1,102 @@
+@use "Animations.module.scss";
+
+.nameWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40em;
+
+    & .preName {
+        color: white;
+        margin: 0;
+
+        animation-delay: .5s;
+    }
+    
+    & .name {
+        margin: .25em 0 .25em .25em;
+        color: white;
+        font-size: 5em;
+
+        animation-delay: .7s;
+    }
+    
+    & .postNameContainer {
+        display: flex;
+
+        animation-delay: .9s;
+
+        & .postName {
+            margin: 0;
+            margin-right: .25em;
+            color: white;
+        }
+
+        & .postNameDescribeContainer {
+            display: flex;
+            margin-left: 1em;
+    
+            & .postNameDescribe {
+                color: white;
+                transition: opacity 1s ease;   
+                margin: 0;
+                z-index: 1;
+            }
+    
+            & .postNameDescribeBackground {
+                transition: width 1s ease;
+                width: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1439px) {
+    .nameWrapper {
+        & .name {
+            font-size: 4em;
+        }
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .nameWrapper {
+        margin-left: 2em;
+
+        & .name {
+            font-size: 4em;
+            margin-left: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .nameWrapper {
+        margin-left: 1em;
+
+        & .preName {
+            font-size: 1.5em;
+        }
+
+        & .name {
+            font-size: 3em;
+            margin-left: 1rem;
+        }
+
+        & .postNameContainer {
+            & .postName {
+                display: none;
+            }
+
+            & .postNameDescribeContainer {
+                display: flex;
+                justify-content: center;
+                margin-left: .5em;
+
+                & .postNameDescribe {
+                    font-size: 1.5em;
+                }
+            }
+        }
+    }
+}

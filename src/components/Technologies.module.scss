@@ -1,0 +1,56 @@
+@use "Animations.module.scss";
+
+.technologiesContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5em;
+
+    & h1 {
+        color: #fff;
+    }
+
+    & .technologiesItemsContainer {
+        display: flex;
+        width: 90%;
+        max-width: 84em;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        & .technologyWrapper {
+            padding: .25em;
+            
+            & .technology {
+                background-color: rgba(255, 255, 255, .1);
+                color: white;
+                padding: .5em 1em;
+                border-radius: 25px;
+                transition: all .2s ease;
+                margin: 0;
+            }
+        }
+
+        & #hoveredTechnology .technology {
+            background-color: rgba(255, 255, 255, .6);
+        }
+
+        // left-hand side of the hovered technology
+        & *:has(+ #hoveredTechnology) .technology { 
+            background-color: rgba(255, 255, 255, .3);
+        }
+
+        & *:has(+ * + #hoveredTechnology) .technology { 
+            background-color: rgba(255, 255, 255, .2);
+        }
+
+        // right-hand side of the hovered technology
+        & #hoveredTechnology + * .technology {
+            background-color: rgba(255, 255, 255, .3);
+        }
+
+        & #hoveredTechnology + * + * .technology {
+            background-color: rgba(255, 255, 255, .2);
+        }
+    }
+}

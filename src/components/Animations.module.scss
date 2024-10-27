@@ -1,0 +1,22 @@
+.slideFadeIn {
+    opacity: 0;
+    animation: slideFadeIn 1s ease forwards;
+}
+
+.scrollSlideFadeIn {
+    opacity: 0;
+    animation: slideFadeIn linear forwards;
+    animation-timeline: view();
+    animation-range: 0% 25%;
+}
+
+@keyframes slideFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -220,6 +220,16 @@ $grey: #646464;
 
         & .downlaodResumeContainer {
             margin-left: 1em;
+            
+            & a p {
+                font-weight: normal;
+                padding: .325em .75em;
+
+                & img {
+                    width: 1.25em;
+                    height: 1.25em;
+                }
+            }
         }
     }
 }

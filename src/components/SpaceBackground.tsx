@@ -8,13 +8,13 @@ const WEBSITE_HEIGHT_REDUCE = .6
 const ELEMENTS_TO_IGNORE = 3 // SpaceBackground, SpaceShip, and SpaceStation
 
 export function SpaceBackground() {
-    const stars = useRef<ReactElement[]>()
+    const [stars, setStars] = useState<ReactElement[]>([])
     const [websiteHeight, setWebsiteHeight] = useState(window.innerHeight)
-    const spaceShip = useRef<ReactElement>()
     const mousePosition = useMousePosition()
     const isTouchDevice = window.matchMedia("(any-hover: none)").matches
+    const isInitialRender = useRef(true)
 
-    useEffect(() => {
+    function handleWindowResize() {
         const appContainerElement = document.querySelector('#appContainer')
 
         if (!appContainerElement) {
@@ -28,11 +28,7 @@ export function SpaceBackground() {
 
             return acc + (element as HTMLElement).getBoundingClientRect().height
         }, 0) * WEBSITE_HEIGHT_REDUCE
-
-        stars.current = new Array(
-            Math.floor((window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) * (actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) / (STAR_SIZE_PX * STAR_SIZE_PX)))
-            .fill(0).map((_, index) => <Star key={index} />)
-
+        
         const spaceElement = document.querySelector(`.${styles.space}`) as HTMLElement
         spaceElement.style.height = `${actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
         spaceElement.style.width = `${window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
@@ -44,10 +40,28 @@ export function SpaceBackground() {
             spaceStationElement.style.height = '100vw'
         }
 
-        spaceShip.current = <SpaceShip websiteHeight={actualWebsiteHeight} />
+        function generateStars() {
+            setStars(new Array(
+                Math.floor((window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) * (actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) / (STAR_SIZE_PX * STAR_SIZE_PX)))
+                .fill(0).map((_, index) => <Star key={index} />))
+        }
+        if (isInitialRender.current) {
+            isInitialRender.current = false
+            setTimeout(generateStars, 1900)
+        } else {
+            generateStars()
+        }
 
         setWebsiteHeight(actualWebsiteHeight)
-    }, [window.innerWidth, window.innerHeight])
+    }
+
+    useEffect(() => {
+        handleWindowResize()
+
+        window.addEventListener('resize', handleWindowResize)
+
+        return () => window.removeEventListener('resize', handleWindowResize)
+    }, [])
 
     return (
         <>
@@ -58,9 +72,9 @@ export function SpaceBackground() {
                     left: `calc(${-((isTouchDevice ? 0 : mousePosition.x - (window.innerWidth / 2)) / (window.innerWidth / 2)) * MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX - MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px)`
                 }}
             >
-                { stars.current }
+                { stars }
             </div>
-            { spaceShip.current }
+            <SpaceShip websiteHeight={websiteHeight} />
             <SpaceStation />
         </>
     )

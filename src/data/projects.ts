@@ -17,7 +17,7 @@ export const PROJECTS: Project[] = [
         stretchImage: false,
         links: [
             { text: "GitHub - Website", url: "https://github.com/nathanaelmemis/calpal" },
-            { text: "GitHub - Mobile", url: "https://github.com/nathanaelmemis/calpal" },
+            { text: "GitHub - Mobile", url: "https://github.com/nathanaelmemis/calpal_mobile" },
             { text: "Website", url: "https://calpal-nsem.vercel.app/" }
         ]
     },

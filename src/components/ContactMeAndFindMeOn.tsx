@@ -21,6 +21,14 @@ export function ContactMeAndFindMeOn() {
                     </a>
                 </div>
             </div>
+            <div className={`${styles.sourceCodeContainer} ${styles.scrollSlideFadeIn}`}>  
+                <h1>Source Code</h1>
+                <div className={styles.linksContainer}>
+                    <a href="https://github.com/nathanaelmemis/portfolio" target="_blank" rel="noreferrer">
+                        <img src="/findMeOnImages/sourceCode.png" alt="Source Code Icon"/>
+                    </a>
+                </div>
+            </div>
         </div>
     )
 }

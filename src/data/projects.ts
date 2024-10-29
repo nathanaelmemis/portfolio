@@ -27,7 +27,8 @@ export const PROJECTS: Project[] = [
         hasMobile: false,
         stretchImage: false,
         links: [
-            { text: "GitHub", url: "https://github.com/nathanaelmemis/vantablack" },
+            { text: "GitHub - Frontend", url: "https://github.com/nathanaelmemis/vantablack" },
+            { text: "GitHub - Backend", url: "https://github.com/nathanaelmemis/vantablack_server" },
             { text: "Website", url: "https://nathanaelmemis.github.io/vantablack/" }
         ]
     },

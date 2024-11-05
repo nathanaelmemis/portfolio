@@ -21,20 +21,22 @@ export function SpaceBackground() {
             return
         }
 
-        let actualWebsiteHeight = Array.from(appContainerElement.children).reduce((acc, element, index) => {
+        const actualWebsiteHeight = Array.from(appContainerElement.children).reduce((acc, element, index) => {
             if (index < ELEMENTS_TO_IGNORE) {
                 return acc
             }
 
-            return acc + (element as HTMLElement).getBoundingClientRect().height
+            return acc + (element as HTMLElement).scrollHeight
         }, 0) * WEBSITE_HEIGHT_REDUCE
+
+        console.log(document.documentElement.clientWidth, actualWebsiteHeight, actualWebsiteHeight / WEBSITE_HEIGHT_REDUCE)
         
         const spaceElement = document.querySelector(`.${styles.space}`) as HTMLElement
         spaceElement.style.height = `${actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
-        spaceElement.style.width = `${window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
+        spaceElement.style.width = `${document.documentElement.clientWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
 
         const spaceStationElement = document.querySelector(`.${styles.spaceStationArea}`) as HTMLElement
-        if (window.innerWidth > actualWebsiteHeight) {
+        if (document.documentElement.clientWidth > actualWebsiteHeight) {
             spaceStationElement.style.height = `calc(${actualWebsiteHeight / WEBSITE_HEIGHT_REDUCE}px - 20em)`
         } else {
             spaceStationElement.style.height = '100vw'
@@ -42,7 +44,7 @@ export function SpaceBackground() {
 
         function generateStars() {
             setStars(new Array(
-                Math.floor((window.innerWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) * (actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) / (STAR_SIZE_PX * STAR_SIZE_PX)))
+                Math.floor((document.documentElement.clientWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) * (actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX) / (STAR_SIZE_PX * STAR_SIZE_PX)))
                 .fill(0).map((_, index) => <Star key={index} />))
         }
         if (isInitialRender.current) {
@@ -69,7 +71,7 @@ export function SpaceBackground() {
                 className={styles.space}
                 style={{
                     top: `calc(${-((isTouchDevice ? 0 : mousePosition.y - (websiteHeight / 2)) / (websiteHeight / 2)) * MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX - MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px)`,
-                    left: `calc(${-((isTouchDevice ? 0 : mousePosition.x - (window.innerWidth / 2)) / (window.innerWidth / 2)) * MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX - MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px)`
+                    left: `calc(${-((isTouchDevice ? 0 : mousePosition.x - (document.documentElement.clientWidth / 2)) / (document.documentElement.clientWidth / 2)) * MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX - MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px)`
                 }}
             >
                 { stars }
@@ -118,33 +120,31 @@ function SpaceShip({ websiteHeight }: SpaceShipProps) {
         const spaceShipMainEngineFlameElement = document.querySelector(`.${styles.mainEngineFlame}`) as HTMLElement
 
         function moveSpaceShipToRandomPosition() {
-            spaceShipElement.removeEventListener('click', handleClick)
-
             // new position and rotation
             // pattern is Q2 => Q3 => Q1 => Q4 => repeat
             function generateNewPosition () {
                 // Q2 to Q3
-                if (spaceShipPosition.x < (window.innerWidth / 2) && spaceShipPosition.y < (acutaulWebsiteHeight / 2)) {
+                if (spaceShipPosition.x < (document.documentElement.clientWidth / 2) && spaceShipPosition.y < (acutaulWebsiteHeight / 2)) {
                     return [
-                        Math.random() * (window.innerWidth / 2), 
+                        Math.random() * (document.documentElement.clientWidth / 2), 
                         Math.random() * (acutaulWebsiteHeight - (acutaulWebsiteHeight / 2)) + (acutaulWebsiteHeight / 2)
                     ]
                 // Q3 to Q1
-                } else if (spaceShipPosition.x < (window.innerWidth / 2) && spaceShipPosition.y > (acutaulWebsiteHeight / 2)) {
+                } else if (spaceShipPosition.x < (document.documentElement.clientWidth / 2) && spaceShipPosition.y > (acutaulWebsiteHeight / 2)) {
                     return [
-                        Math.random() * (window.innerWidth - (window.innerWidth / 2)) + (window.innerWidth / 2), 
+                        Math.random() * (document.documentElement.clientWidth - (document.documentElement.clientWidth / 2)) + (document.documentElement.clientWidth / 2), 
                         Math.random() * (acutaulWebsiteHeight / 2)
                     ]
                 // Q1 to Q4
-                } else if (spaceShipPosition.x > (window.innerWidth / 2) && spaceShipPosition.y < (acutaulWebsiteHeight / 2)) {
+                } else if (spaceShipPosition.x > (document.documentElement.clientWidth / 2) && spaceShipPosition.y < (acutaulWebsiteHeight / 2)) {
                     return [
-                        Math.random() * (window.innerWidth - (window.innerWidth / 2)) + (window.innerWidth / 2),
+                        Math.random() * (document.documentElement.clientWidth - (document.documentElement.clientWidth / 2)) + (document.documentElement.clientWidth / 2),
                         Math.random() * (acutaulWebsiteHeight - (acutaulWebsiteHeight / 2)) + (acutaulWebsiteHeight / 2)
                     ]
                 // Q4 to Q2
                 } else {
                     return [
-                        Math.random() * (window.innerWidth / 2),
+                        Math.random() * (document.documentElement.clientWidth / 2),
                         Math.random() * (acutaulWebsiteHeight / 2)
                     ]
                 }
@@ -152,11 +152,10 @@ function SpaceShip({ websiteHeight }: SpaceShipProps) {
             const [newX, newY] = generateNewPosition()
             // we are using the arc tangent to calculate the angle between the space ship and the new position
             // then we subtract it from 90 to get the angle we need to rotate the space ship relative to the positive y-axis
-            let newRotateDeg = 90 - Math.atan2(-newY + spaceShipPosition.y, newX - spaceShipPosition.x) * (180 / Math.PI);
+            const newRotateDeg = 90 - Math.atan2(-newY + spaceShipPosition.y, newX - spaceShipPosition.x) * (180 / Math.PI);
 
             // give space ship new position and rotation
             spaceShipElement.style.rotate = `${newRotateDeg}deg`
-            spaceShipElement.style.cursor = 'default'
 
             // determine which thruster to turn on based on rotation
             if (spaceShipPosition.rotateDeg - newRotateDeg < 0) {
@@ -184,28 +183,16 @@ function SpaceShip({ websiteHeight }: SpaceShipProps) {
             }, 6500)
 
             spaceShipPosition = { x: newX, y: newY, rotateDeg: newRotateDeg }
-            spaceShipElement.style.cursor = 'pointer'
-
-            setTimeout(() => {
-                spaceShipElement.addEventListener('click', handleClick)
-            }, 15000)
         }
 
         moveSpaceShipToRandomPosition()
 
         let intervalRef = setInterval(moveSpaceShipToRandomPosition, 20000)
 
-        function handleClick() {
-            clearInterval(intervalRef)
-            moveSpaceShipToRandomPosition()
-            intervalRef = setInterval(moveSpaceShipToRandomPosition, 20000)
-        }
-
         return () => {
             clearInterval(intervalRef)
-            spaceShipElement.removeEventListener('click', handleClick)
         }
-    }, [window.innerWidth, websiteHeight])
+    }, [websiteHeight])
 
     return (
         <div className={styles.spaceShip}>

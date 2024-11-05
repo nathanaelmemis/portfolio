@@ -1,16 +1,26 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
+html {
+    overflow: hidden;
+}
+
+#root {
+    overflow: hidden;
+}
+
 body {
     background-color: black;
     margin: 0;
     font-family: 'Montserrat';
+    overflow: hidden;
 }
 
 .appContainer {
     perspective: 1px;
-    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: auto;    
 }
 
 ::-webkit-scrollbar {

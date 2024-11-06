@@ -187,7 +187,7 @@ function SpaceShip({ websiteHeight }: SpaceShipProps) {
 
         moveSpaceShipToRandomPosition()
 
-        let intervalRef = setInterval(moveSpaceShipToRandomPosition, 20000)
+        const intervalRef = setInterval(moveSpaceShipToRandomPosition, 20000)
 
         return () => {
             clearInterval(intervalRef)

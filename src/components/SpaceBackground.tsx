@@ -29,8 +29,6 @@ export function SpaceBackground() {
             return acc + (element as HTMLElement).scrollHeight
         }, 0) * WEBSITE_HEIGHT_REDUCE
 
-        console.log(document.documentElement.clientWidth, actualWebsiteHeight, actualWebsiteHeight / WEBSITE_HEIGHT_REDUCE)
-        
         const spaceElement = document.querySelector(`.${styles.space}`) as HTMLElement
         spaceElement.style.height = `${actualWebsiteHeight + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`
         spaceElement.style.width = `${document.documentElement.clientWidth + MOUSE_PARALLAX_EFFECT_MAX_MOVEMENT_PX}px`

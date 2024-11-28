@@ -1,5 +1,7 @@
 export const TECHNOLOGIES = [
     'C',
+    'C#',
+    '.NET',
     'Java',
     'Python',
     'HTML',
